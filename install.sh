@@ -8,7 +8,7 @@ cwd=$(cd "$(dirname "$0")" && pwd)
 
 setup-lvim() {
     echo "==> Setting up neovim"
-    LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
+    LV_BRANCH='release0.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
     rm -rf "$HOME/.config/lvim"
     mkdir -p "$HOME/.config/lvim"
     cp "$cwd/config.lua" "$HOME/.config/lvim/config.lua"
