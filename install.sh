@@ -6,20 +6,14 @@ set -o nounset
 
 cwd=$(cd "$(dirname "$0")" && pwd)
 
-setup-nvim() {
+setup-lvim() {
     echo "==> Setting up neovim"
-    curl -LO https://github.com/neovim/neovim/releases/download/v0.8.2/nvim-linux64.deb
-    sudo apt install ./nvim-linux64.deb
-
-    rm -rf "$HOME/.config"
-    mkdir "$HOME/.config"
-    
-    rm -rf "$HOME/.config/nvim"
-    mkdir "$HOME/.config/nvim"
-    ln -s "$cwd/init.vim" "$HOME/.config/nvim/init.vim"
-    rm -rf ./nvim-linux64.deb
-    nvim --headless +PlugInstall +qa
-    echo "==> Finished setting up neovim"
+    LV_BRANCH='release-1.3/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh)
+    rm -rf "$HOME/.config/lvim"
+    mkdir -p "$HOME/.config/lvim"
+    cp "$cwd/config.lua" "$HOME/.config/lvim/config.lua"
+    cp "$cwd/lazy-lock.json" "$HOME/.config/lvim/lazy-lock.json"
+    echo "==> Finished setting up LunarVim"
 }
 
 apt-install() {
@@ -38,7 +32,7 @@ main() {
 
     echo "==> Starting to set up env"
     apt-install
-    setup-nvim
+    setup-lvim
     echo "==> Successfully finished setting up env"
 }
 
