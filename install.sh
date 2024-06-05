@@ -4,7 +4,7 @@ set -o pipefail
 set -o errexit
 set -o nounset
 
-cwd=$(cd "$(dirname "$0")" && pwd)
+cwd="/workspaces/.codespaces/.persistedshare/dotfiles"
 
 setup-lvim() {
     echo "==> Setting up neovim"
