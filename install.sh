@@ -37,7 +37,7 @@ apt-install() {
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US
     export LC_ALL=en_US.UTF-8
-    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config
+    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config neovim
     echo "==> Finished apt-installing packages"
 }
 
