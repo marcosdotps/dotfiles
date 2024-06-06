@@ -7,7 +7,14 @@ set -o nounset
 cwd="/workspaces/.codespaces/.persistedshare/dotfiles"
 
 setup-lvim() {
-    echo "==> Setting up neovim"
+    echo "==> Patching pip error..."
+    rm -f ~/.config/pip/pip.conf
+    mkdir -p ~/.config/pip/
+    touch ~/.config/pip/pip.conf
+    echo "[global]" >  ~/.config/pip/pip.conf
+    echo "break-system-packages = true" >> ~/.config/pip/pip.conf
+    echo "user = true" >> ~/.config/pip/pip.conf
+    echo "==> Setting up lunarvim"
     bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
     rm -rf "$HOME/.config/lvim"
     mkdir -p "$HOME/.config/lvim"
@@ -18,10 +25,10 @@ setup-lvim() {
 
 apt-install() {
     echo "==> Start apt-installing packages"
-    apt update
-   
+    sudo apt update
+
    # Preconfigure the locale settings to avoid interactive prompts
-    locale-gen en_US.UTF-8
+    sudo locale-gen en_US.UTF-8
     echo 'LANG="en_US.UTF-8"' | sudo tee /etc/default/locale
     echo 'LANGUAGE="en_US:en"' | sudo tee -a /etc/default/locale
     echo 'LC_ALL="en_US.UTF-8"' | sudo tee -a /etc/default/locale
@@ -37,7 +44,9 @@ apt-install() {
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US
     export LC_ALL=en_US.UTF-8
-    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config neovim
+    ## using brew as apt installs older version 
+    brew install neovim
+    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
     echo "==> Finished apt-installing packages"
 }
 
