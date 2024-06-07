@@ -45,8 +45,8 @@ apt-install() {
     export LANGUAGE=en_US
     export LC_ALL=en_US.UTF-8
     ## using brew as apt installs older version 
+    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim brew
     brew install neovim
-    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
     echo "==> Finished apt-installing packages"
 }
 
