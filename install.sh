@@ -15,7 +15,18 @@ setup-lvim() {
     echo "break-system-packages = true" >> ~/.config/pip/pip.conf
     echo "user = true" >> ~/.config/pip/pip.conf
     echo "==> Setting up lunarvim"
-    bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.3/neovim-0.9/utils/installer/install.sh) -y
+    bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh) -y
+    rm -rf "$HOME/.config/lvim"
+    mkdir -p "$HOME/.config/lvim"
+    cp "$cwd/config.lua" "$HOME/.config/lvim/config.lua"
+    cp "$cwd/lazy-lock.json" "$HOME/.config/lvim/lazy-lock.json"
+    echo "==> Finished setting up LunarVim"
+    touch ~/.config/pip/pip.conf
+    echo "[global]" >  ~/.config/pip/pip.conf
+    echo "break-system-packages = true" >> ~/.config/pip/pip.conf
+    echo "user = true" >> ~/.config/pip/pip.conf
+    echo "==> Setting up lunarvim"
+    bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh) -y
     rm -rf "$HOME/.config/lvim"
     mkdir -p "$HOME/.config/lvim"
     cp "$cwd/config.lua" "$HOME/.config/lvim/config.lua"
@@ -25,7 +36,6 @@ setup-lvim() {
 
 apt-install() {
     echo "==> Start apt-installing packages"
-    sudo apt update
 
    # Preconfigure the locale settings to avoid interactive prompts
     sudo locale-gen en_US.UTF-8
@@ -41,12 +51,17 @@ apt-install() {
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
 
-    export LANG=en_US.UTF-8
-    export LANGUAGE=en_US
-    export LC_ALL=en_US.UTF-8
-    ## using brew as apt installs older version 
-    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim brew
-    brew install neovim
+    # Add neovim package repo
+    curl -LO https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
+    tar xzvf nvim-linux64.tar.gz
+    sudo rm -f /usr/bin/nvim
+    sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/bin/nvim
+
+    ## using brew as apt installs older version
+    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
+    ## installing rust... why not!?
+    sh <(curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) -y
+    source $HOME/.cargo/env
     echo "==> Finished apt-installing packages"
 }
 
@@ -62,3 +77,4 @@ main() {
 }
 
 main "$@"
+
