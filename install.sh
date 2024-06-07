@@ -40,13 +40,14 @@ apt-install() {
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
 
-    # Add neovim package repo
+    # Add neovim from repo
     curl -LO https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
     tar xzvf nvim-linux64.tar.gz
     sudo rm -f /usr/bin/nvim
     sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/bin/nvim
 
     # Installing dependencies
+    sudo apt update
     sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
 
     # Installing rust... why not!? (someone needs to explain this to me)
