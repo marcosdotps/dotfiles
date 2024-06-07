@@ -42,9 +42,42 @@ apt-install() {
 
     # Add neovim from repo
     curl -LO https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
+
+    # Check if the download was successful
+    if [ $? -ne 0 ]; then
+        echo "Failed to download nvim-linux64.tar.gz"
+        exit 1
+    fi
+
+    # Extract the tar.gz file
     tar xzvf nvim-linux64.tar.gz
+
+    # Check if extraction was successful
+    if [ $? -ne 0 ]; then
+        echo "Failed to extract nvim-linux64.tar.gz"
+        exit 1
+    fi
+
+    # Ensure the current directory contains the extracted files
+    if [ ! -d "$(pwd)/nvim-linux64" ]; then
+        echo "nvim-linux64 directory not found"
+        exit 1
+    fi
+
+    # Remove existing nvim symlink or file
     sudo rm -f /usr/bin/nvim
+
+    # Create a new symlink
     sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/bin/nvim
+
+    # Verify the symlink creation
+    if [ -L /usr/bin/nvim ]; then
+        echo "Successfully updated nvim symlink"
+    else
+        echo "Failed to create nvim symlink"
+        exit 1
+    fi
+
 
     # Installing dependencies
     sudo apt update
