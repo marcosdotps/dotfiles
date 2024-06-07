@@ -25,6 +25,7 @@ setup-lvim() {
 
 apt-install() {
     echo "==> Start apt-installing packages"
+    sudo apt update
 
    # Preconfigure the locale settings to avoid interactive prompts
     sudo locale-gen en_US.UTF-8
@@ -40,7 +41,13 @@ apt-install() {
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
 
-    # Add neovim from repo
+
+    # Installing dependencies
+    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
+
+
+    # Add neovim v0.10 from repo
+    sudo apt remove -y neovim
     curl -LO https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
 
     # Check if the download was successful
@@ -68,7 +75,7 @@ apt-install() {
     sudo rm -f /usr/bin/nvim
 
     # Create a new symlink
-    sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/bin/nvim
+    sudo ln -s $cwd/nvim-linux64/bin/nvim /usr/bin/nvim
 
     # Verify the symlink creation
     if [ -L /usr/bin/nvim ]; then
@@ -77,11 +84,6 @@ apt-install() {
         echo "Failed to create nvim symlink"
         exit 1
     fi
-
-
-    # Installing dependencies
-    sudo apt update
-    sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
 
     # Installing rust... why not!? (someone needs to explain this to me)
     sh <(curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) -y
@@ -101,5 +103,8 @@ main() {
     echo "==> Successfully finished setting up env"
 }
 
-main "$@"
+echo "==> Starting setup script"
+
+# Track time taken to run the main function
+time main "$@"
 
