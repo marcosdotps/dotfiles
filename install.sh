@@ -64,6 +64,7 @@ main() {
     echo "==> Starting to set up env"
     apt-install
     setup-lvim
+    echo "export PATH=\"\$PATH:/home/codespace/.local/bin/lvim\"" >> ~/.bashrc
     echo "==> Successfully finished setting up env"
 }
 
