@@ -21,17 +21,6 @@ setup-lvim() {
     cp "$cwd/config.lua" "$HOME/.config/lvim/config.lua"
     cp "$cwd/lazy-lock.json" "$HOME/.config/lvim/lazy-lock.json"
     echo "==> Finished setting up LunarVim"
-    touch ~/.config/pip/pip.conf
-    echo "[global]" >  ~/.config/pip/pip.conf
-    echo "break-system-packages = true" >> ~/.config/pip/pip.conf
-    echo "user = true" >> ~/.config/pip/pip.conf
-    echo "==> Setting up lunarvim"
-    bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh) -y
-    rm -rf "$HOME/.config/lvim"
-    mkdir -p "$HOME/.config/lvim"
-    cp "$cwd/config.lua" "$HOME/.config/lvim/config.lua"
-    cp "$cwd/lazy-lock.json" "$HOME/.config/lvim/lazy-lock.json"
-    echo "==> Finished setting up LunarVim"
 }
 
 apt-install() {
@@ -57,9 +46,10 @@ apt-install() {
     sudo rm -f /usr/bin/nvim
     sudo ln -s $(pwd)/nvim-linux64/bin/nvim /usr/bin/nvim
 
-    ## using brew as apt installs older version
+    # Installing dependencies
     sudo apt install -y exuberant-ctags bat tree shellcheck icdiff autojump jq ripgrep libevent-dev ncurses-dev build-essential bison pkg-config python3-pynvim
-    ## installing rust... why not!?
+
+    # Installing rust... why not!? (someone needs to explain this to me)
     sh <(curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs) -y
     source $HOME/.cargo/env
     echo "==> Finished apt-installing packages"
