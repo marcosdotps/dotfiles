@@ -63,6 +63,7 @@ setup_config() {
 main() {
   install_nvim
   setup_config
+  cargo install --locked tree-sitter-cli
   echo "==> Done."
 }
 
